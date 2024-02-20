@@ -139,8 +139,8 @@ class HBNBCommand(cmd.Cmd):
                 continue
             new_instance.__dict__[key] = val
 
-        print(new_instance.id, new_instance.to_dict())
-        storage.save()
+        print(new_instance.id)
+        new_instance.save()
 
     def help_create(self):
         """ Help information for the create method """
