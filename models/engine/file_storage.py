@@ -29,7 +29,7 @@ class FileStorage:
         """delete obj from __objects if it’s inside"""
         if obj is None:
             return
-        key = obj.to_dict()['__class__'] + '.' + obj.id: obj
+        key = obj.to_dict()['__class__'] + '.' + obj.id
         del FileStorage.__objects[key]
 
 
