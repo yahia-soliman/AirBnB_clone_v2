@@ -12,6 +12,15 @@ from models.amenity import Amenity
 from models.review import Review
 
 
+def isfloat(string):
+    """check if a string can be float"""
+    try:
+        float(string)
+        return True
+    except ValueError:
+        return False
+
+
 class HBNBCommand(cmd.Cmd):
     """ Contains the functionality for the HBNB console"""
 
@@ -130,12 +139,12 @@ class HBNBCommand(cmd.Cmd):
             val = arg[1]
             if val.isdigit():
                 val = int(val)
+            elif isfloat(val):
+                val = float(val)
             elif val.startswith('"') and val.endswith('"'):
                 val = val[1: -1]
                 val = val.replace('_', ' ')
                 val = val.replace('\\"', '"')
-            elif val.find('.') >= 0:
-                val = float(val)
             else:
                 continue
             new_instance.__dict__[key] = val
