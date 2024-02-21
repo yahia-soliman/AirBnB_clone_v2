@@ -133,6 +133,7 @@ class HBNBCommand(cmd.Cmd):
             elif val.startswith('"') and val.endswith('"'):
                 val = val[1: -1]
                 val = val.replace('_', ' ')
+                val = val.replace('\\"', '"')
             elif val.find('.') >= 0:
                 val = float(val)
             else:
@@ -215,16 +216,21 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, args):
         """ Shows all objects, or all objects of a class"""
+        cls = args.strip()
+        all = {}
         print_list = []
 
         if args:
-            if args.strip() not in HBNBCommand.classes:
+            if cls not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
             else:
-               print_list = storage.all(args.strip())
+               all = storage.all(HBNBCommand.classes[cls])
         else:
-            print_list = storage.all()
+            all = storage.all()
+
+        for val in all.values():
+            print_list.append(str(val))
 
         print(print_list)
 
