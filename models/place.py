@@ -1,18 +1,8 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, Integer, Float, ForeignKey, Table
+from sqlalchemy import Column, String, Integer, Float, ForeignKey
 from sqlalchemy.orm import relationship
-
-
-place_amenity = Table('place_amenity', Base.metadata,
-
-                      Column(String(60), ForeignKey('places.id'),
-                             primary_key=True, nullable=False),
-
-                      Column(String(60), ForeignKey('amenities.id'),
-                             primary_key=True, nullable=False)
-                      )
 
 
 class Place(BaseModel, Base):
@@ -34,12 +24,8 @@ class Place(BaseModel, Base):
     longitude = Column(Float, nullable=True)
     amenity_ids = []
 
-    # For DBStorage:
+    # For DBStorage: class attribute reviews
     reviews = relationship('Review', cascade='all, delete', backref='place')
-    amenities = relationship('Amenity', cascade='all, delete',
-                             backref='place_amenities',
-                             secondary=place_amenity,
-                             viewonly=False)
 
     # For FileStorage: getter attribute reviews
     @property
@@ -53,14 +39,3 @@ class Place(BaseModel, Base):
                 review_list.append(rev)
 
         return review_list
-
-    @property
-    def amenities(self):
-        '''This method returns the list of Amenity instances'''
-        pass
-
-    @amenities.setter
-    def amenities(self):
-        '''This method handles append method for adding
-        an Amenity.id to the attribute amenity_ids'''
-        pass
