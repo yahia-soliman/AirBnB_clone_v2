@@ -2,7 +2,7 @@
 """The engine module that deals with the MySQL database"""
 
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, scoped_session
 from os import getenv
 
 from models.base_model import Base
@@ -21,10 +21,10 @@ class DBStorage:
 
     def __init__(self):
         """initialize the storage engine"""
-        db_URI = 'mysql+mysqldb://' +
-                 getenv('HBNB_MYSQL_USER') + ':' +
-                 getenv('HBNB_MYSQL_PWD') + '@' +
-                 getenv('HBNB_MYSQL_HOST') + '/' +
+        db_URI = 'mysql+mysqldb://' +\
+                 getenv('HBNB_MYSQL_USER') + ':' +\
+                 getenv('HBNB_MYSQL_PWD') + '@' +\
+                 getenv('HBNB_MYSQL_HOST') + '/' +\
                  getenv('HBNB_MYSQL_DB')
 
         self.__engine = create_engine(db_URI, pool_pre_ping=True)
@@ -34,16 +34,16 @@ class DBStorage:
     def all(self, cls=None):
         """Retrieve all rows of a table or just all rows"""
         all = {}
-        if cls == None:
-            qurey = self.__session.query(
-                User, State, City, Amenity, Place, Review
-            )
-        else:
+        classes = [User, State, City, Place, Review]
+        if cls != None:
+            classes = [cls]
+        for cls in classes:
             query = self.__session.query(cls)
+            for row in query.all():
+                key = cls.__name__ + '.' + row.id
+                all[key] = row
+        return all
 
-        for row in query.all():
-            key = row.__name__ + row.id
-            all[key] = row
 
     def new(self, obj):
         """Insert new instance into the database"""
