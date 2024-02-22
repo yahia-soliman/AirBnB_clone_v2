@@ -3,7 +3,6 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Integer, Float, ForeignKey
 from sqlalchemy.orm import relationship
-from models.review import Review
 
 
 class Place(BaseModel, Base):
@@ -37,6 +36,6 @@ class Place(BaseModel, Base):
         review_list = []
         for rev in self.reviews:
             if rev.place_id == self.id:
-                review_list.append()
+                review_list.append(rev)
 
         return review_list
