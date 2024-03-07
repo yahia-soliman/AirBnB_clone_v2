@@ -11,10 +11,12 @@ def do_deploy(archive_path):
     if path.failed:
         return False
     outdir = '/data/web_static/releases/'
-    run(f'tar -xzf {path[0]} --directory {outdir}')
+    if run(f'tar -xzf {path[0]} --directory {outdir}').failed:
+        return False
     new_name = path[0].split('/')[-1].split('.')[0]
     link = "/data/web_static/current"
-    run(f'rm -rf {outdir + new_name} {path[0]} {link}')
-    run(f'rm -rf {outdir + new_name} {path[0]} {link}')
-    run('mv ' + outdir + '{web_static,' + new_name + '}')
+    if run(f'rm -rf {outdir + new_name} {path[0]} {link}').failed:
+        return False
+    if run('mv ' + outdir + '{web_static,' + new_name + '}').failed:
+        return False
     return run(f'ln -sf {outdir + new_name} {link}').succeeded
