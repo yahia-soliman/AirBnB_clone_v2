@@ -16,3 +16,4 @@ old_content='server_name _;'
 new_content='server_name _;\n\n\tlocation \/hbnb_static {\n\t\talias \/data\/web_static\/current\/;\n\t}'
 sed -i "s/$old_content/$new_content/" /etc/nginx/sites-available/default
 service nginx --full-restart
+true
