@@ -1,11 +1,8 @@
 #!/usr/bin/python3
 """deploy a packaged web_static archive"""
-from fabric.api import put, run, env, local, runs_once
+from fabric.api import put, run, local, runs_once
 from datetime import datetime
 from os.path import exists
-
-env.hosts = ['54.210.126.177', '18.208.120.189']
-env.user = 'ubuntu'
 
 
 @runs_once
