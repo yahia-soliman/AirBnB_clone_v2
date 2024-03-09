@@ -1,8 +1,11 @@
 #!/usr/bin/python3
 """deploy a packaged web_static archive"""
-from fabric.api import put, run, local, runs_once
+from fabric.api import env, put, run, local, runs_once
 from datetime import datetime
 from os.path import exists
+
+env.hosts = ['54.210.126.177', '18.208.120.189']
+env.user = 'ubuntu'
 
 
 @runs_once
@@ -27,10 +30,10 @@ def do_deploy(archive_path):
     link = "/data/web_static/current"
     outdir += path[0].split('/')[-1].split('.')[0]
     run('mkdir -p {}'.format(outdir))
-    run('tar -xzf {} --directory {}'.format(path, outdir))
-    run('rm -rf {}'.format(path))
+    run('tar -xzf {} --directory {}'.format(path[0], outdir))
+    run('rm -rf {}'.format(path[0]))
     run('rm -rf {}'.format(link))
     run('ln -sf {} {}'.format(outdir, link))
     run('mv -n ' + outdir + '/web_static/* ' + outdir)
-    print('New version deployed!')
+    print('New version deployed!\n')
     return True
