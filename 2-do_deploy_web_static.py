@@ -31,6 +31,6 @@ def do_deploy(archive_path):
     run(f'rm -rf {path[0]}')
     run(f'rm -rf {link}')
     run(f'ln -sf {outdir} {link}')
-    run('mv ' + outdir + '/web_static/* ' + outdir)
+    run('mv -n ' + outdir + '/web_static/* ' + outdir)
     print('New version deployed!')
     return True
