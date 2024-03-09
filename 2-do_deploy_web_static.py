@@ -1,8 +1,10 @@
 #!/usr/bin/python3
 """deploy a packaged web_static archive"""
-from fabric.api import put, run, local, runs_once
+from fabric.api import env, put, run, local, runs_once, task
 from datetime import datetime
 from os.path import exists
+
+env.hosts = ['54.210.126.177', '18.208.120.189']
 
 
 @runs_once
@@ -16,6 +18,7 @@ def do_pack():
     return path if cmd.succeeded else None
 
 
+@task
 def do_deploy(archive_path):
     """distribute an archive to web servers"""
     if not (archive_path and exists(archive_path)):
@@ -24,13 +27,19 @@ def do_deploy(archive_path):
     if path.failed:
         return False
     outdir = '/data/web_static/releases/'
-    link = "/data/web_static/current"
+    link = '/data/web_static/current'
     outdir += path[0].split('/')[-1].split('.')[0]
-    run('mkdir -p {}'.format(outdir))
-    run('tar -xzf {} --directory {}'.format(path[0], outdir))
-    run('rm -rf {}'.format(path[0]))
-    run('rm -rf {}'.format(link))
-    run('ln -sf {} {}'.format(outdir, link))
-    run('mv -n ' + outdir + '/web_static/* ' + outdir)
+    if run('mkdir -p {}'.format(outdir)).failed:
+        return False
+    if run('tar -xzf {} --directory {}'.format(path[0], outdir)).failed:
+        return False
+    if run('rm -rf {}'.format(path[0])).failed:
+        return False
+    if run('rm -rf {}'.format(link)).failed:
+        return False
+    if run('ln -sf {} {}'.format(outdir, link)).failed:
+        return False
+    if run('mv -n ' + outdir + '/web_static/* ' + outdir).failed:
+        return False
     print('New version deployed!\n')
     return True
