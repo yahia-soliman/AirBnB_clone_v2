@@ -9,10 +9,10 @@ from os.path import exists
 def do_pack():
     """pack the files in web_static folder"""
     path = 'versions'
-    local(f'mkdir -p {path}')
+    local('mkdir -p {}'.format(path))
     date = datetime.now().strftime('%Y%m%d%H%M%S')
-    path += f'/web_static_{date}.tgz'
-    cmd = local(f'tar -cvzf {path} web_static/')
+    path += '/web_static_{}.tgz'.format(date)
+    cmd = local('tar -cvzf {} web_static/'.format(path))
     return path if cmd.succeeded else None
 
 
@@ -26,11 +26,11 @@ def do_deploy(archive_path):
     outdir = '/data/web_static/releases/'
     link = "/data/web_static/current"
     outdir += path[0].split('/')[-1].split('.')[0]
-    run(f'mkdir -p {outdir}')
-    run(f'tar -xzf {path[0]} --directory {outdir}')
-    run(f'rm -rf {path[0]}')
-    run(f'rm -rf {link}')
-    run(f'ln -sf {outdir} {link}')
+    run('mkdir -p {}'.format(outdir))
+    run('tar -xzf {} --directory {}'.format(path, outdir))
+    run('rm -rf {}'.format(path))
+    run('rm -rf {}'.format(link))
+    run('ln -sf {} {}'.format(outdir, link))
     run('mv -n ' + outdir + '/web_static/* ' + outdir)
     print('New version deployed!')
     return True
