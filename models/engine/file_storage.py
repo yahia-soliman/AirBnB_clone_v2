@@ -32,7 +32,6 @@ class FileStorage:
         key = obj.to_dict()['__class__'] + '.' + obj.id
         del FileStorage.__objects[key]
 
-
     def save(self):
         """Saves storage dictionary to file"""
         with open(FileStorage.__file_path, 'w') as f:
@@ -65,3 +64,7 @@ class FileStorage:
                     FileStorage.__objects[key] = classes[val['__class__']](**val)
         except FileNotFoundError:
             pass
+
+    def close(self):
+        """reload and get the data again from files"""
+        self.reload()

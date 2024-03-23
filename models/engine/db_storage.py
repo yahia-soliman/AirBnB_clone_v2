@@ -34,8 +34,8 @@ class DBStorage:
     def all(self, cls=None):
         """Retrieve all rows of a table or just all rows"""
         all = {}
-        classes = [User, State, City, Place, Review]
-        if cls != None:
+        classes = [User, State, City, Place, Review, Amenity]
+        if cls is not None:
             classes = [cls]
         for cls in classes:
             query = self.__session.query(cls)
@@ -43,7 +43,6 @@ class DBStorage:
                 key = cls.__name__ + '.' + row.id
                 all[key] = row
         return all
-
 
     def new(self, obj):
         """Insert new instance into the database"""
@@ -62,3 +61,8 @@ class DBStorage:
         Base.metadata.create_all(self.__engine)
         Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
         self.__session = scoped_session(Session)
+
+    def close(self):
+        """reload and get the data again from files"""
+        self.__session.remove()
+        self.reload()
