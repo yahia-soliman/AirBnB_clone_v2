@@ -17,6 +17,10 @@ class State(BaseModel, Base):
         def cities(self):
             """get all cities, in case of file storage"""
             from models import storage
-            from models.city_model import City
+            from models.city import City
             all = storage.all(City)
-            return [city for city in all if city.state_id == self.id]
+            cities = []
+            for val in all.values():
+                if val.__dict__.get('state_id') == self.id:
+                    cities.append(val)
+            return cities

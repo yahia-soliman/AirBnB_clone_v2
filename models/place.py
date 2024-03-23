@@ -2,7 +2,6 @@
 """ Place Module for HBNB project """
 from models.base_model import BaseModel, Base, storage_is_db
 
-place_amenity = None
 if storage_is_db:
     from sqlalchemy import Column, String, Integer, Float, ForeignKey, Table
     place_amenity = Table('place_amenity', Base.metadata,
@@ -45,7 +44,7 @@ class Place(BaseModel, Base):
         reviews = relationship('Review', cascade='all, delete',
                                backref='place')
         amenities = relationship('Amenity', cascade='all, delete',
-                                 backref='place_amenities',
+                                 back_populates='place_amenities',
                                  secondary=place_amenity,
                                  viewonly=False)
     else:
