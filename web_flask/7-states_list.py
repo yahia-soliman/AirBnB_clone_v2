@@ -7,10 +7,16 @@ app = Flask(__name__)
 app.url_map.strict_slashes = False
 
 
+@app.teardown_request
+def after_any(error):
+    storage.close()
+
+
 @app.route('/states_list')
 def states_list():
     """get a list of available states"""
     from models.state import State
+    print('request')
     states = storage.all(State)
     return render_template('7-states_list.html', states=states.values())
 
