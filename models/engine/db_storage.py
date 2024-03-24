@@ -25,7 +25,7 @@ class DBStorage:
                  getenv('HBNB_MYSQL_USER') + ':' +\
                  getenv('HBNB_MYSQL_PWD') + '@' +\
                  getenv('HBNB_MYSQL_HOST') + '/' +\
-                 getenv('HBNB_MYSQL_DB') + '?charset=latin1'
+                 getenv('HBNB_MYSQL_DB')
 
         self.__engine = create_engine(db_URI, pool_pre_ping=True)
         if getenv('HBNB_ENV') == 'test':
