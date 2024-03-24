@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.url_map.strict_slashes = False
 
 
-@app.before_requset
+@app.before_request
 @app.teardown_request
 def after_any(error):
     """close and refresh the db connection after each request"""
