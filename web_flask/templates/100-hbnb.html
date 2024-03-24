@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>AirBnB clone</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="icon" type="image/x-icon" href="static/images/icon.ico">
+		<link rel="stylesheet" href="static/styles/4-common.css">
+		<link rel="stylesheet" href="static/styles/3-header.css">
+		<link rel="stylesheet" href="static/styles/3-footer.css">
+		<link rel="stylesheet" href="static/styles/6-filters.css">
+		<link rel="stylesheet" href="static/styles/8-places.css">
+	</head>
+
+
+	<body>
+		<header>
+			<div class="topLogo"></div>
+		</header>
+		<div class="container">
+			<SECTION class="filters">
+				<DIV class="locations">
+					<H3>States</H3>
+					<h4>&nbsp;</h4>
+					<UL class="popover">
+						{% for state in states|sort(attribute='name') %}
+						<LI>
+							<H2>{{ state.name }}</H2>
+							<UL>
+								{% for city in state.cities|sort(attribute='name') %}
+								<LI>{{ city.name }}</LI>
+								{% endfor %}
+							</UL>
+						</LI>
+						{% endfor %}
+					</UL>
+				</DIV>
+				<DIV class="amenities">
+					<H3>Amenities</H3>
+					<h4>&nbsp;</h4>
+					<UL class="popover">
+						{% for amenity in amenities|sort(attribute='name') %}
+						<LI>{{ amenity.name }}</LI>
+						{% endfor %}
+					</UL>
+				</DIV>
+				<BUTTON>Search</BUTTON>
+			</SECTION>
+			<section class="places">
+				<h1>Places</h1>
+				{% for place in places|sort(attribute='name') %}
+				<article>
+					<div class="place_title">
+						<h2>{{ place.name }}</h2>
+						<div class="price_by_night">
+							${{ place.price_by_night }}
+						</div>
+					</div>
+					<div class="information">
+						<div class="max_guest">
+							{{ place.max_guest }} Guest {%- if place.max_guest > 1 %}s{% endif %}
+						</div>
+						<div class="number_rooms">
+							{{ place.number_rooms }} Bedroom {%- if place.number_rooms > 1 %}s{% endif %}
+						</div>
+						<div class="number_bathrooms">
+							{{ place.number_bathrooms }} Bathroom {%- if place.number_bathrooms > 1 %}s{% endif %}
+						</div>
+					</div>
+					<div class="user">
+						<strong>Owner: </strong><span>{{ place.user.first_name }} {{ place.user.last_name }}</span>
+					</div>
+					<div class="description">
+						{% for line in place.description.split('<BR />') %}
+						{{ line }}
+						<br />
+						{% endfor %}
+					</div>
+				</article>
+				{% endfor %}
+			</section>
+		</div>
+		<footer>
+			Best School
+		</footer>
+	</body>
+</html>
