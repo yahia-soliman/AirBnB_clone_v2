@@ -30,14 +30,7 @@ class Place(BaseModel, Base):
     if storage_is_db:
         from sqlalchemy.orm import relationship
         __tablename__ = 'places'
-        """
-        __table_args__ = {
-                "mysql_engine": "InnoDB",
-                "mysql_default_charset": "latin1",
-        }
-        """
-        city_id = Column(String(60, collation='latin1_swedish_ci'),
-                         ForeignKey('cities.id'), nullable=False)
+        city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
         user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
         name = Column(String(128), nullable=False)
         description = Column(String(1024), nullable=True)
