@@ -1,0 +1,25 @@
+* {
+	margin: 0; padding: 0;
+	box-sizing: border-box;
+}
+body {
+	margin: 0; padding: 0;
+	color: #484848;
+	font-size: 14px;
+	font-family: Circular,"Helvetica Neue",Helvetica,Arial,sans-serif;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-content: center;
+}
+.container {
+	width: 70vw;
+	max-width: 1000px;
+	margin: 30px auto;
+	margin-top: 100px;
+}
+@media all and (max-width: 700px) {
+	.container {
+		width: 90vw;
+	}
+}
