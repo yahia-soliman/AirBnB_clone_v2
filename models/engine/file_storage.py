@@ -69,3 +69,4 @@ class FileStorage:
     def close(self):
         """reload and get the data again from files"""
         self.reload()
+        self.save()
